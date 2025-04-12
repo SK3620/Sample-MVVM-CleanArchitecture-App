@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct DataHeaderView: View {
+    
+    @EnvironmentObject var dateManager: DateManager
+    
     var body: some View {
         ZStack {
             VStack {
@@ -26,7 +29,7 @@ struct DataHeaderView: View {
                     .foregroundColor(.black)
                     .padding(4)
                 
-                Text("What's up for today?")
+                Text(dateManager.selectedDate == Calendar.current.startOfDay(for: Date()) ? "What's up for today?" : "Planning for future?")
                     .font(.caption)
                     .fontWeight(.light)
                     .foregroundColor(.black)
@@ -36,13 +39,14 @@ struct DataHeaderView: View {
             Spacer()
             
             VStack(alignment: .trailing) {
-                Text("2025.10.15")
+                Text(dateManager.selectedDate.monthToString())
                     .font(.system(size: 10))
                     .fontWeight(.heavy)
                     .foregroundColor(.black)
                 
                 Button {
                     withAnimation(.linear(duration: 0.1)) {
+                        dateManager.selectToday()
                     }
                 } label: {
                     Text("Month String")
